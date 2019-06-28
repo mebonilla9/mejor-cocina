@@ -8,6 +8,7 @@ import dev.manuel.estandar.dto.RespuestaDTO;
 import dev.manuel.estandar.excepcion.AplicacionExcepcion;
 import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
 
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

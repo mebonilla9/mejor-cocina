@@ -6,6 +6,7 @@ import dev.manuel.cocina.persistencia.dto.FacturaDTO;
 import dev.manuel.estandar.dto.RespuestaDTO;
 import dev.manuel.estandar.excepcion.AplicacionExcepcion;
 
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

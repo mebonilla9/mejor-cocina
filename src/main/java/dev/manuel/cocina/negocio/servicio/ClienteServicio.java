@@ -1,6 +1,5 @@
 package dev.manuel.cocina.negocio.servicio;
 
-import dev.manuel.cocina.persistencia.basedatos.PostgresBD;
 import dev.manuel.cocina.persistencia.dao.ClienteDAO;
 import dev.manuel.cocina.persistencia.dto.InformeClienteDTO;
 import dev.manuel.cocina.persistencia.entidades.Cliente;
@@ -8,6 +7,8 @@ import dev.manuel.estandar.excepcion.AplicacionExcepcion;
 import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
  * @author Manuel Ernesto Bonilla Muñoz
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class ClienteServicio extends GenericoServicio {
 
   /**
@@ -25,8 +27,7 @@ public class ClienteServicio extends GenericoServicio {
    */
   @Transactional(Transactional.TxType.NOT_SUPPORTED)
   public List<Cliente> consultarTodos() throws AplicacionExcepcion {
-    List<Cliente> listaClientes = new ClienteDAO(this.conn, null).consultar();
-    //PostgresBD.desconectar(conn);
+    List<Cliente> listaClientes = new ClienteDAO(getConexion(), null).consultar();
     return listaClientes;
   }
 
@@ -38,7 +39,7 @@ public class ClienteServicio extends GenericoServicio {
    */
   @Transactional(Transactional.TxType.NOT_SUPPORTED)
   public List<InformeClienteDTO> consultarGastos() throws PersistenciaExcepcion {
-    List<InformeClienteDTO> informeCliente = new ClienteDAO(this.conn, null).consultarGastoClientes();
+    List<InformeClienteDTO> informeCliente = new ClienteDAO(getConexion(), null).consultarGastoClientes();
     return informeCliente;
   }
 

@@ -9,7 +9,9 @@ import dev.manuel.cocina.persistencia.entidades.Factura;
 import dev.manuel.estandar.dto.AuditoriaDTO;
 import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Date;
 
 /**
@@ -20,7 +22,7 @@ public class RegistrarFacturaDelegado extends GenericoDelegado {
   private final ClienteDAO clienteDAO;
   private final CamareroDAO camareroDAO;
   private final FacturaDAO facturaDAO;
-  private final CocineroDAO cocineroDAO;
+  // private final CocineroDAO cocineroDAO;
   private final DetalleFacturaDAO detalleFacturaDAO;
 
   /**
@@ -31,10 +33,16 @@ public class RegistrarFacturaDelegado extends GenericoDelegado {
    */
   public RegistrarFacturaDelegado(Connection conn, AuditoriaDTO auditoria) throws PersistenciaExcepcion {
     super(conn, auditoria);
+    try {
+      //this.conn.setAutoCommit(false);*/
+    System.out.println("-----------------"+this.conn.getAutoCommit());
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
     clienteDAO = new ClienteDAO(this.conn, auditoria);
-    camareroDAO = new CamareroDAO(this.conn, auditoria);
     facturaDAO = new FacturaDAO(this.conn, auditoria);
-    cocineroDAO = new CocineroDAO(this.conn,auditoria);
+    camareroDAO = new CamareroDAO(this.conn, auditoria);
+    // cocineroDAO = new CocineroDAO(this.conn,auditoria);
     detalleFacturaDAO = new DetalleFacturaDAO(this.conn, auditoria);
   }
 
@@ -46,8 +54,8 @@ public class RegistrarFacturaDelegado extends GenericoDelegado {
    */
   public void guardarFactura(FacturaDTO factura) throws PersistenciaExcepcion {
     registrarCliente(factura.getFactura().getIdCliente());
-    registrarFactura(factura.getFactura());
     registrarCamarero(factura.getFactura().getIdCamarero());
+    registrarFactura(factura.getFactura());
     registrarDetalles(factura);
   }
 

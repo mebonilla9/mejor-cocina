@@ -8,7 +8,6 @@ import dev.manuel.estandar.dto.RespuestaDTO;
 import dev.manuel.estandar.excepcion.AplicacionExcepcion;
 
 import javax.annotation.PreDestroy;
-import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -49,6 +48,7 @@ public class ClienteApi {
 
   /**
    * Consulta los datos pertenecientes al informe de gastos de los clientes del restaurante
+   *
    * @return Lista de Dto que representa el informe de gastos de los clientes
    * @throws AplicacionExcepcion Error al consultar la información
    */

@@ -49,7 +49,7 @@ public abstract class GenericoConexion {
       if (cnn.isClosed()) {
         return;
       }
-      cnn.setAutoCommit(true);
+      //cnn.setAutoCommit(true);
       cnn.close();
     } catch (SQLException ex) {
       LogUtil.error(ex);

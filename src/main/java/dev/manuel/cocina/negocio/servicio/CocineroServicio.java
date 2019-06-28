@@ -1,13 +1,13 @@
 package dev.manuel.cocina.negocio.servicio;
 
-import dev.manuel.cocina.persistencia.basedatos.PostgresBD;
 import dev.manuel.cocina.persistencia.dao.CocineroDAO;
 import dev.manuel.cocina.persistencia.entidades.Cocinero;
 import dev.manuel.estandar.excepcion.AplicacionExcepcion;
 import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
 
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -15,6 +15,7 @@ import java.util.List;
  * @author Manuel Ernesto Bonilla Muñoz
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class CocineroServicio extends GenericoServicio {
 
   public CocineroServicio() throws AplicacionExcepcion {
@@ -28,8 +29,7 @@ public class CocineroServicio extends GenericoServicio {
    */
   @Transactional(Transactional.TxType.NOT_SUPPORTED)
   public List<Cocinero> consultarTodos() throws PersistenciaExcepcion {
-    List<Cocinero> listaCocineros = new CocineroDAO(this.conn, null).consultar();
-    //PostgresBD.desconectar(conn);
+    List<Cocinero> listaCocineros = new CocineroDAO(getConexion(), null).consultar();
     return listaCocineros;
   }
 }

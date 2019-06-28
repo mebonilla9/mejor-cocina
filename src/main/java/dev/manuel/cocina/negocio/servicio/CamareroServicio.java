@@ -4,17 +4,19 @@ import dev.manuel.cocina.persistencia.basedatos.PostgresBD;
 import dev.manuel.cocina.persistencia.dao.CamareroDAO;
 import dev.manuel.cocina.persistencia.dto.InformeCamareroDTO;
 import dev.manuel.cocina.persistencia.entidades.Camarero;
-import dev.manuel.estandar.excepcion.AplicacionExcepcion;
 import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
 
-import javax.ejb.Stateless;
+import javax.ejb.*;
+import javax.interceptor.AroundInvoke;
 import javax.transaction.Transactional;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
  * @author Manuel Ernesto Bonilla Muñoz
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class CamareroServicio extends GenericoServicio {
 
 
@@ -26,8 +28,7 @@ public class CamareroServicio extends GenericoServicio {
    */
   @Transactional(Transactional.TxType.NOT_SUPPORTED)
   public List<Camarero> consultarTodos() throws PersistenciaExcepcion {
-    List<Camarero> listaCamareros = new CamareroDAO(this.conn, null).consultar();
-    //PostgresBD.desconectar(conn);
+    List<Camarero> listaCamareros = new CamareroDAO(getConexion(), null).consultar();
     return listaCamareros;
   }
 
@@ -39,7 +40,7 @@ public class CamareroServicio extends GenericoServicio {
    */
   @Transactional(Transactional.TxType.NOT_SUPPORTED)
   public List<InformeCamareroDTO> consultarInforme() throws PersistenciaExcepcion {
-    List<InformeCamareroDTO> informeCamareros = new CamareroDAO(this.conn, null).consultarInforme();
+    List<InformeCamareroDTO> informeCamareros = new CamareroDAO(getConexion(), null).consultarInforme();
     return informeCamareros;
   }
 }
