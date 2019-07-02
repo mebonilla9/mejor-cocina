@@ -1,14 +1,12 @@
 package dev.manuel.cocina.persistencia.dao.crud;
 
-import dev.manuel.cocina.persistencia.basedatos.PostgresBD;
 import dev.manuel.cocina.persistencia.constante.EMensajePersistencia;
 import dev.manuel.cocina.persistencia.entidades.Mesa;
 import dev.manuel.estandar.dto.AuditoriaDTO;
 import dev.manuel.estandar.persistencia.abstracto.GenericoCRUD;
-import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
+import dev.manuel.estandar.persistencia.excepcion.PersistenciaException;
 import dev.manuel.estandar.util.LogUtil;
 
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +19,12 @@ public class MesaCRUD extends GenericoCRUD {
 
   private final int ID = 1;
 
-  public MesaCRUD(Connection conn, AuditoriaDTO auditoria) throws PersistenciaExcepcion {
+  public MesaCRUD(Connection conn, AuditoriaDTO auditoria) throws PersistenciaException {
     super(conn, auditoria);
   }
 
 
-  public void insertar(Mesa mesa) throws PersistenciaExcepcion {
+  public void insertar(Mesa mesa) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -42,14 +40,14 @@ public class MesaCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_INSERTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_INSERTAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public void insertarTodos(Mesa mesa) throws PersistenciaExcepcion {
+  public void insertarTodos(Mesa mesa) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -62,14 +60,14 @@ public class MesaCRUD extends GenericoCRUD {
       sentencia.executeUpdate();
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_INSERTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_INSERTAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public void editar(Mesa mesa) throws PersistenciaExcepcion {
+  public void editar(Mesa mesa) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -82,14 +80,14 @@ public class MesaCRUD extends GenericoCRUD {
       sentencia.executeUpdate();
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_EDITAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_EDITAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public List<Mesa> consultar() throws PersistenciaExcepcion {
+  public List<Mesa> consultar() throws PersistenciaException {
     PreparedStatement sentencia = null;
     List<Mesa> lista = new ArrayList<>();
     try {
@@ -102,7 +100,7 @@ public class MesaCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_CONSULTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_CONSULTAR);
     } finally {
       desconectar(sentencia);
     }
@@ -111,7 +109,7 @@ public class MesaCRUD extends GenericoCRUD {
   }
 
 
-  public Mesa consultar(long id) throws PersistenciaExcepcion {
+  public Mesa consultar(long id) throws PersistenciaException {
     PreparedStatement sentencia = null;
     Mesa obj = null;
     try {
@@ -125,14 +123,14 @@ public class MesaCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_CONSULTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_CONSULTAR);
     } finally {
       desconectar(sentencia);
     }
     return obj;
   }
 
-  public static Mesa getMesa(ResultSet rs) throws PersistenciaExcepcion {
+  public static Mesa getMesa(ResultSet rs) throws PersistenciaException {
     Mesa mesa = new Mesa();
     mesa.setIdMesa(getObject("id_mesa", Integer.class, rs));
     mesa.setMaxComensal(getObject("max_comensal", Integer.class, rs));
@@ -141,7 +139,7 @@ public class MesaCRUD extends GenericoCRUD {
     return mesa;
   }
 
-  public static void getMesa(ResultSet rs, Map<String, Integer> columnas, Mesa mesa) throws PersistenciaExcepcion {
+  public static void getMesa(ResultSet rs, Map<String, Integer> columnas, Mesa mesa) throws PersistenciaException {
     Integer columna = columnas.get("mesa_id_mesa");
     if (columna != null) {
       mesa.setIdMesa(getObject(columna, Integer.class, rs));
@@ -156,7 +154,7 @@ public class MesaCRUD extends GenericoCRUD {
     }
   }
 
-  public static void getMesa(ResultSet rs, Map<String, Integer> columnas, Mesa mesa, String alias) throws PersistenciaExcepcion {
+  public static void getMesa(ResultSet rs, Map<String, Integer> columnas, Mesa mesa, String alias) throws PersistenciaException {
     Integer columna = columnas.get(alias + "_id_mesa");
     if (columna != null) {
       mesa.setIdMesa(getObject(columna, Integer.class, rs));
@@ -171,13 +169,13 @@ public class MesaCRUD extends GenericoCRUD {
     }
   }
 
-  public static Mesa getMesa(ResultSet rs, Map<String, Integer> columnas) throws PersistenciaExcepcion {
+  public static Mesa getMesa(ResultSet rs, Map<String, Integer> columnas) throws PersistenciaException {
     Mesa mesa = new Mesa();
     getMesa(rs, columnas, mesa);
     return mesa;
   }
 
-  public static Mesa getMesa(ResultSet rs, Map<String, Integer> columnas, String alias) throws PersistenciaExcepcion {
+  public static Mesa getMesa(ResultSet rs, Map<String, Integer> columnas, String alias) throws PersistenciaException {
     Mesa mesa = new Mesa();
     getMesa(rs, columnas, mesa, alias);
     return mesa;

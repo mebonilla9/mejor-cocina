@@ -5,9 +5,8 @@ import dev.manuel.cocina.negocio.servicio.CamareroServicio;
 import dev.manuel.cocina.persistencia.dto.InformeCamareroDTO;
 import dev.manuel.cocina.persistencia.entidades.Camarero;
 import dev.manuel.estandar.dto.RespuestaDTO;
-import dev.manuel.estandar.excepcion.AplicacionExcepcion;
+import dev.manuel.estandar.excepcion.AplicacionException;
 
-import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -36,12 +35,12 @@ public class CamareroApi {
    * Consulta la información de todos los camareros que estan registrados en la aplicación
    *
    * @return Lista de camareros registrados en la aplicación
-   * @throws AplicacionExcepcion Error al consultar la información
+   * @throws AplicacionException Error al consultar la información
    */
   @GET
   @Path(ERutas.Camarero.CONSULTAR)
   @Produces(MediaType.APPLICATION_JSON)
-  public RespuestaDTO consultar() throws AplicacionExcepcion {
+  public RespuestaDTO consultar() throws AplicacionException {
     List<Camarero> listaCamareros = camareroServicio.consultarTodos();
     return new RespuestaDTO().setDatos(listaCamareros);
   }
@@ -50,12 +49,12 @@ public class CamareroApi {
    * Consulta los datos pertenecientes al informe de ventas de los camareros del restaurante
    *
    * @return Lista de Dto que representa el informe de los camareros
-   * @throws AplicacionExcepcion Error al consultar la información
+   * @throws AplicacionException Error al consultar la información
    */
   @GET
   @Path(ERutas.Camarero.CONSULTAR_INFORME)
   @Produces(MediaType.APPLICATION_JSON)
-  public RespuestaDTO consultarInforme() throws AplicacionExcepcion {
+  public RespuestaDTO consultarInforme() throws AplicacionException {
     List<InformeCamareroDTO> listaInforme = camareroServicio.consultarInforme();
     return new RespuestaDTO().setDatos(listaInforme);
   }

@@ -2,9 +2,8 @@ package dev.manuel.cocina.persistencia.dao;
 
 import dev.manuel.cocina.persistencia.dao.crud.DetalleFacturaCRUD;
 import dev.manuel.estandar.dto.AuditoriaDTO;
-import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
+import dev.manuel.estandar.persistencia.excepcion.PersistenciaException;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 
 /**
@@ -12,7 +11,7 @@ import java.sql.Connection;
  */
 public class DetalleFacturaDAO extends DetalleFacturaCRUD {
 
-  public DetalleFacturaDAO(Connection conn, AuditoriaDTO auditoria) throws PersistenciaExcepcion {
+  public DetalleFacturaDAO(Connection conn, AuditoriaDTO auditoria) throws PersistenciaException {
     super(conn, auditoria);
   }
 
@@ -20,9 +19,9 @@ public class DetalleFacturaDAO extends DetalleFacturaCRUD {
    * Permite eliminar todos los detalles de factura de una factura especifica
    *
    * @param idFactura identificador de la factura a la que se le eliminaran los detalles
-   * @throws PersistenciaExcepcion Error al ejecutar la eliminación
+   * @throws PersistenciaException Error al ejecutar la eliminación
    */
-  public void eliminar(Integer idFactura) throws PersistenciaExcepcion {
+  public void eliminar(Integer idFactura) throws PersistenciaException {
     StringBuilder sql = new StringBuilder();
     sql.append("DELETE FROM public.detalle_factura ")
       .append("WHERE id_factura = :idFactura;");

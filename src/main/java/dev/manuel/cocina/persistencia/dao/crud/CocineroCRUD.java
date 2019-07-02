@@ -1,14 +1,12 @@
 package dev.manuel.cocina.persistencia.dao.crud;
 
-import dev.manuel.cocina.persistencia.basedatos.PostgresBD;
 import dev.manuel.cocina.persistencia.constante.EMensajePersistencia;
 import dev.manuel.cocina.persistencia.entidades.Cocinero;
 import dev.manuel.estandar.dto.AuditoriaDTO;
 import dev.manuel.estandar.persistencia.abstracto.GenericoCRUD;
-import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
+import dev.manuel.estandar.persistencia.excepcion.PersistenciaException;
 import dev.manuel.estandar.util.LogUtil;
 
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +19,12 @@ public class CocineroCRUD extends GenericoCRUD {
 
   private final int ID = 1;
 
-  public CocineroCRUD(Connection conn, AuditoriaDTO auditoria) throws PersistenciaExcepcion {
+  public CocineroCRUD(Connection conn, AuditoriaDTO auditoria) throws PersistenciaException {
     super(conn, auditoria);
   }
 
 
-  public void insertar(Cocinero cocinero) throws PersistenciaExcepcion {
+  public void insertar(Cocinero cocinero) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -43,14 +41,14 @@ public class CocineroCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_INSERTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_INSERTAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public void insertarTodos(Cocinero cocinero) throws PersistenciaExcepcion {
+  public void insertarTodos(Cocinero cocinero) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -64,14 +62,14 @@ public class CocineroCRUD extends GenericoCRUD {
       sentencia.executeUpdate();
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_INSERTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_INSERTAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public void editar(Cocinero cocinero) throws PersistenciaExcepcion {
+  public void editar(Cocinero cocinero) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -85,14 +83,14 @@ public class CocineroCRUD extends GenericoCRUD {
       sentencia.executeUpdate();
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_EDITAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_EDITAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public List<Cocinero> consultar() throws PersistenciaExcepcion {
+  public List<Cocinero> consultar() throws PersistenciaException {
     PreparedStatement sentencia = null;
     List<Cocinero> lista = new ArrayList<>();
     try {
@@ -105,7 +103,7 @@ public class CocineroCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_CONSULTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_CONSULTAR);
     } finally {
       desconectar(sentencia);
     }
@@ -114,7 +112,7 @@ public class CocineroCRUD extends GenericoCRUD {
   }
 
 
-  public Cocinero consultar(long id) throws PersistenciaExcepcion {
+  public Cocinero consultar(long id) throws PersistenciaException {
     PreparedStatement sentencia = null;
     Cocinero obj = null;
     try {
@@ -128,14 +126,14 @@ public class CocineroCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_CONSULTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_CONSULTAR);
     } finally {
       desconectar(sentencia);
     }
     return obj;
   }
 
-  public static Cocinero getCocinero(ResultSet rs) throws PersistenciaExcepcion {
+  public static Cocinero getCocinero(ResultSet rs) throws PersistenciaException {
     Cocinero cocinero = new Cocinero();
     cocinero.setIdCocinero(getObject("id_cocinero", Integer.class, rs));
     cocinero.setNombre(getObject("nombre", String.class, rs));
@@ -145,7 +143,7 @@ public class CocineroCRUD extends GenericoCRUD {
     return cocinero;
   }
 
-  public static void getCocinero(ResultSet rs, Map<String, Integer> columnas, Cocinero cocinero) throws PersistenciaExcepcion {
+  public static void getCocinero(ResultSet rs, Map<String, Integer> columnas, Cocinero cocinero) throws PersistenciaException {
     Integer columna = columnas.get("cocinero_id_cocinero");
     if (columna != null) {
       cocinero.setIdCocinero(getObject(columna, Integer.class, rs));
@@ -164,7 +162,7 @@ public class CocineroCRUD extends GenericoCRUD {
     }
   }
 
-  public static void getCocinero(ResultSet rs, Map<String, Integer> columnas, Cocinero cocinero, String alias) throws PersistenciaExcepcion {
+  public static void getCocinero(ResultSet rs, Map<String, Integer> columnas, Cocinero cocinero, String alias) throws PersistenciaException {
     Integer columna = columnas.get(alias + "_id_cocinero");
     if (columna != null) {
       cocinero.setIdCocinero(getObject(columna, Integer.class, rs));
@@ -183,13 +181,13 @@ public class CocineroCRUD extends GenericoCRUD {
     }
   }
 
-  public static Cocinero getCocinero(ResultSet rs, Map<String, Integer> columnas) throws PersistenciaExcepcion {
+  public static Cocinero getCocinero(ResultSet rs, Map<String, Integer> columnas) throws PersistenciaException {
     Cocinero cocinero = new Cocinero();
     getCocinero(rs, columnas, cocinero);
     return cocinero;
   }
 
-  public static Cocinero getCocinero(ResultSet rs, Map<String, Integer> columnas, String alias) throws PersistenciaExcepcion {
+  public static Cocinero getCocinero(ResultSet rs, Map<String, Integer> columnas, String alias) throws PersistenciaException {
     Cocinero cocinero = new Cocinero();
     getCocinero(rs, columnas, cocinero, alias);
     return cocinero;

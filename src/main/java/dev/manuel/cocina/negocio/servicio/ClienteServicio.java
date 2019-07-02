@@ -3,8 +3,8 @@ package dev.manuel.cocina.negocio.servicio;
 import dev.manuel.cocina.persistencia.dao.ClienteDAO;
 import dev.manuel.cocina.persistencia.dto.InformeClienteDTO;
 import dev.manuel.cocina.persistencia.entidades.Cliente;
-import dev.manuel.estandar.excepcion.AplicacionExcepcion;
-import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
+import dev.manuel.estandar.excepcion.AplicacionException;
+import dev.manuel.estandar.persistencia.excepcion.PersistenciaException;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
@@ -23,10 +23,10 @@ public class ClienteServicio extends GenericoServicio {
    * Consulta la lista de clientes existentes en la aplicación
    *
    * @return Lista de clientes
-   * @throws AplicacionExcepcion Error al consultar la información
+   * @throws AplicacionException Error al consultar la información
    */
   @Transactional(Transactional.TxType.NOT_SUPPORTED)
-  public List<Cliente> consultarTodos() throws AplicacionExcepcion {
+  public List<Cliente> consultarTodos() throws AplicacionException {
     List<Cliente> listaClientes = new ClienteDAO(getConexion(), null).consultar();
     return listaClientes;
   }
@@ -35,10 +35,10 @@ public class ClienteServicio extends GenericoServicio {
    * Consulta el informe de gastos de los clientes
    *
    * @return Lista de Dtos que representa el informe de gastos por cliente
-   * @throws PersistenciaExcepcion Error al consultar la información
+   * @throws PersistenciaException Error al consultar la información
    */
   @Transactional(Transactional.TxType.NOT_SUPPORTED)
-  public List<InformeClienteDTO> consultarGastos() throws PersistenciaExcepcion {
+  public List<InformeClienteDTO> consultarGastos() throws PersistenciaException {
     List<InformeClienteDTO> informeCliente = new ClienteDAO(getConexion(), null).consultarGastoClientes();
     return informeCliente;
   }

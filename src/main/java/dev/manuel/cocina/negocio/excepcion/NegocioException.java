@@ -3,25 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dev.manuel.estandar.persistencia.excepcion;
+package dev.manuel.cocina.negocio.excepcion;
 
-import dev.manuel.estandar.excepcion.AplicacionExcepcion;
+import dev.manuel.estandar.excepcion.AplicacionException;
 import dev.manuel.estandar.plantilla.IGenericoMensaje;
 
 /**
+ * Clase que controla las excepciones en la capa de lógica
+ *
  * @author Manuel Ernesto Bonilla Muñoz
  */
-public class PersistenciaExcepcion extends AplicacionExcepcion {
+public class NegocioException extends AplicacionException {
 
-  public PersistenciaExcepcion(IGenericoMensaje mensaje) {
+  public NegocioException(IGenericoMensaje mensaje) {
     super(mensaje);
   }
 
-  public PersistenciaExcepcion(IGenericoMensaje mensaje, Object datos) {
+  public NegocioException(IGenericoMensaje mensaje, Object datos) {
     super(mensaje, datos);
   }
 
-  public PersistenciaExcepcion(IGenericoMensaje eMensaje, String complemento) {
+  public NegocioException(IGenericoMensaje eMensaje, String complemento) {
     super(eMensaje);
     mensaje = eMensaje.getMensaje().replaceAll("__COMPLEMENTO__", complemento);
   }

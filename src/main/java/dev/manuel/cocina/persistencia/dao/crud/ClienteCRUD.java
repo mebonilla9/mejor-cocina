@@ -1,14 +1,12 @@
 package dev.manuel.cocina.persistencia.dao.crud;
 
-import dev.manuel.cocina.persistencia.basedatos.PostgresBD;
 import dev.manuel.cocina.persistencia.constante.EMensajePersistencia;
 import dev.manuel.cocina.persistencia.entidades.Cliente;
 import dev.manuel.estandar.dto.AuditoriaDTO;
 import dev.manuel.estandar.persistencia.abstracto.GenericoCRUD;
-import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
+import dev.manuel.estandar.persistencia.excepcion.PersistenciaException;
 import dev.manuel.estandar.util.LogUtil;
 
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +19,13 @@ public class ClienteCRUD extends GenericoCRUD {
 
   private final int ID = 1;
 
-  public ClienteCRUD(Connection conn, AuditoriaDTO auditoria) throws PersistenciaExcepcion {
+  public ClienteCRUD(Connection conn, AuditoriaDTO auditoria) throws PersistenciaException {
     super(conn, auditoria);
 
   }
 
 
-  public void insertar(Cliente cliente) throws PersistenciaExcepcion {
+  public void insertar(Cliente cliente) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -45,14 +43,14 @@ public class ClienteCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_INSERTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_INSERTAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public void insertarTodos(Cliente cliente) throws PersistenciaExcepcion {
+  public void insertarTodos(Cliente cliente) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -67,14 +65,14 @@ public class ClienteCRUD extends GenericoCRUD {
       sentencia.executeUpdate();
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_INSERTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_INSERTAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public void editar(Cliente cliente) throws PersistenciaExcepcion {
+  public void editar(Cliente cliente) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -89,14 +87,14 @@ public class ClienteCRUD extends GenericoCRUD {
       sentencia.executeUpdate();
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_EDITAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_EDITAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public List<Cliente> consultar() throws PersistenciaExcepcion {
+  public List<Cliente> consultar() throws PersistenciaException {
     PreparedStatement sentencia = null;
     List<Cliente> lista = new ArrayList<>();
     try {
@@ -109,7 +107,7 @@ public class ClienteCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_CONSULTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_CONSULTAR);
     } finally {
       desconectar(sentencia);
     }
@@ -118,7 +116,7 @@ public class ClienteCRUD extends GenericoCRUD {
   }
 
 
-  public Cliente consultar(long id) throws PersistenciaExcepcion {
+  public Cliente consultar(long id) throws PersistenciaException {
     PreparedStatement sentencia = null;
     Cliente obj = null;
     try {
@@ -132,14 +130,14 @@ public class ClienteCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_CONSULTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_CONSULTAR);
     } finally {
       desconectar(sentencia);
     }
     return obj;
   }
 
-  public static Cliente getCliente(ResultSet rs) throws PersistenciaExcepcion {
+  public static Cliente getCliente(ResultSet rs) throws PersistenciaException {
     Cliente cliente = new Cliente();
     cliente.setIdCliente(getObject("id_cliente", Integer.class, rs));
     cliente.setNombre(getObject("nombre", String.class, rs));
@@ -150,7 +148,7 @@ public class ClienteCRUD extends GenericoCRUD {
     return cliente;
   }
 
-  public static void getCliente(ResultSet rs, Map<String, Integer> columnas, Cliente cliente) throws PersistenciaExcepcion {
+  public static void getCliente(ResultSet rs, Map<String, Integer> columnas, Cliente cliente) throws PersistenciaException {
     Integer columna = columnas.get("cliente_id_cliente");
     if (columna != null) {
       cliente.setIdCliente(getObject(columna, Integer.class, rs));
@@ -173,7 +171,7 @@ public class ClienteCRUD extends GenericoCRUD {
     }
   }
 
-  public static void getCliente(ResultSet rs, Map<String, Integer> columnas, Cliente cliente, String alias) throws PersistenciaExcepcion {
+  public static void getCliente(ResultSet rs, Map<String, Integer> columnas, Cliente cliente, String alias) throws PersistenciaException {
     Integer columna = columnas.get(alias + "_id_cliente");
     if (columna != null) {
       cliente.setIdCliente(getObject(columna, Integer.class, rs));
@@ -196,13 +194,13 @@ public class ClienteCRUD extends GenericoCRUD {
     }
   }
 
-  public static Cliente getCliente(ResultSet rs, Map<String, Integer> columnas) throws PersistenciaExcepcion {
+  public static Cliente getCliente(ResultSet rs, Map<String, Integer> columnas) throws PersistenciaException {
     Cliente cliente = new Cliente();
     getCliente(rs, columnas, cliente);
     return cliente;
   }
 
-  public static Cliente getCliente(ResultSet rs, Map<String, Integer> columnas, String alias) throws PersistenciaExcepcion {
+  public static Cliente getCliente(ResultSet rs, Map<String, Integer> columnas, String alias) throws PersistenciaException {
     Cliente cliente = new Cliente();
     getCliente(rs, columnas, cliente, alias);
     return cliente;

@@ -6,7 +6,7 @@
 package dev.manuel.estandar.util;
 
 import dev.manuel.estandar.constante.EMensajeEstandar;
-import dev.manuel.estandar.excepcion.AplicacionExcepcion;
+import dev.manuel.estandar.excepcion.AplicacionException;
 
 import java.util.List;
 
@@ -22,13 +22,13 @@ public class ValidacionObjeto {
    *
    * @param lista
    * @param campo
-   * @throws AplicacionExcepcion
+   * @throws AplicacionException
    */
   public static void listaObligatoria(List lista, String campo)
-          throws AplicacionExcepcion
+          throws AplicacionException
   {
     if (lista == null || lista.isEmpty()) {
-      throw new AplicacionExcepcion(EMensajeEstandar.ERROR_VALIDACION_MENSAJE, campo);
+      throw new AplicacionException(EMensajeEstandar.ERROR_VALIDACION_MENSAJE, campo);
     }
   }
 }

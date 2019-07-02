@@ -12,7 +12,7 @@ import dev.manuel.estandar.plantilla.IGenericoMensaje;
  *
  * @author Manuel Ernesto Bonilla Muñoz
  */
-public class AplicacionExcepcion extends Exception {
+public class AplicacionException extends Exception {
 
   /**
    * Código de respuesta que se envía a la presentación del sistema
@@ -34,26 +34,26 @@ public class AplicacionExcepcion extends Exception {
    *
    * @param mensaje Constante del error que está orriendo
    */
-  public AplicacionExcepcion(IGenericoMensaje mensaje)
+  public AplicacionException(IGenericoMensaje mensaje)
   {
     this.codigo = mensaje.getCodigo();
     this.mensaje = mensaje.getMensaje();
   }
 
-  public AplicacionExcepcion(IGenericoMensaje mensaje, Object datos)
+  public AplicacionException(IGenericoMensaje mensaje, Object datos)
   {
     this.codigo = mensaje.getCodigo();
     this.mensaje = mensaje.getMensaje();
     this.datos = datos;
   }
 
-  public AplicacionExcepcion(int codigo, String mensaje)
+  public AplicacionException(int codigo, String mensaje)
   {
     this.codigo = codigo;
     this.mensaje = mensaje;
   }
 
-  public AplicacionExcepcion(IGenericoMensaje eMensaje, String complemento)
+  public AplicacionException(IGenericoMensaje eMensaje, String complemento)
   {
     this(eMensaje);
     mensaje = eMensaje.getMensaje().replaceAll("__COMPLEMENTO__", complemento);

@@ -2,9 +2,8 @@ package dev.manuel.cocina.persistencia.dao;
 
 import dev.manuel.cocina.persistencia.dao.crud.FacturaCRUD;
 import dev.manuel.estandar.dto.AuditoriaDTO;
-import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
+import dev.manuel.estandar.persistencia.excepcion.PersistenciaException;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 
 /**
@@ -12,7 +11,7 @@ import java.sql.Connection;
  */
 public class FacturaDAO extends FacturaCRUD {
 
-  public FacturaDAO(Connection conn, AuditoriaDTO auditoria) throws PersistenciaExcepcion {
+  public FacturaDAO(Connection conn, AuditoriaDTO auditoria) throws PersistenciaException {
      super(conn, auditoria);
   }
 }

@@ -2,7 +2,7 @@ package dev.manuel.estandar.persistencia.abstracto;
 
 import dev.manuel.estandar.constante.EMensajeEstandar;
 import dev.manuel.estandar.dto.AuditoriaDTO;
-import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
+import dev.manuel.estandar.persistencia.excepcion.PersistenciaException;
 import dev.manuel.estandar.persistencia.util.PreparedStatementNamed;
 import dev.manuel.estandar.persistencia.util.TablaUtil;
 import dev.manuel.estandar.util.FuncionesDatoUtil;
@@ -32,7 +32,7 @@ public abstract class GenericoCRUD extends FuncionesDatoUtil {
   }
 
   protected static <T> T getObject(Integer pos, Class<T> tipo, ResultSet rs)
-          throws PersistenciaExcepcion
+          throws PersistenciaException
   {
     try {
       String objDato = rs.getString(pos);
@@ -58,12 +58,12 @@ public abstract class GenericoCRUD extends FuncionesDatoUtil {
       return tipo.cast(objValor);
     } catch (Exception ex) {
       LogUtil.error(ex);
-      throw new PersistenciaExcepcion(EMensajeEstandar.ERROR_COLUMNA_NO_ENCONTRADA);
+      throw new PersistenciaException(EMensajeEstandar.ERROR_COLUMNA_NO_ENCONTRADA);
     }
   }
 
   public static <T> T getObject(String columna, Class<T> tipo, ResultSet rs)
-          throws PersistenciaExcepcion
+          throws PersistenciaException
   {
     try {
       String objDato = rs.getString(columna);
@@ -89,19 +89,19 @@ public abstract class GenericoCRUD extends FuncionesDatoUtil {
       return tipo.cast(objValor);
     } catch (Exception ex) {
       LogUtil.error(ex);
-      throw new PersistenciaExcepcion(EMensajeEstandar.ERROR_COLUMNA_NO_ENCONTRADA);
+      throw new PersistenciaException(EMensajeEstandar.ERROR_COLUMNA_NO_ENCONTRADA);
     }
   }
 
   protected int ejecutarEdicion(StringBuilder sql, Map<String, Object> parametros)
-          throws PersistenciaExcepcion
+          throws PersistenciaException
   {
     return ejecutarEdicion(sql, parametros, new ModificarAdaptador() {
     });
   }
 
   protected int ejecutarEdicion(StringBuilder sql, Map<String, Object> parametros, ModificarAdaptador adaptador)
-          throws PersistenciaExcepcion
+          throws PersistenciaException
   {
     log(sql);
     PreparedStatementNamed ps = null;
@@ -127,7 +127,7 @@ public abstract class GenericoCRUD extends FuncionesDatoUtil {
   }
 
   protected <T> T ejecutarConsultaSimple(StringBuilder sql, Map<String, Object> parameters, ConsultaAdaptador<T> query)
-          throws PersistenciaExcepcion
+          throws PersistenciaException
   {
     log(sql);
     PreparedStatementNamed ps = null;
@@ -156,7 +156,7 @@ public abstract class GenericoCRUD extends FuncionesDatoUtil {
   }
 
   protected <T extends Object> List<T> ejecutarConsulta(StringBuilder sql, Map<String, Object> parameters, ConsultaAdaptador<T> adaptador)
-          throws PersistenciaExcepcion
+          throws PersistenciaException
   {
     log(sql);
     PreparedStatementNamed ps = null;

@@ -2,7 +2,7 @@
 package dev.manuel.cocina.persistencia.entidades;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import dev.manuel.estandar.excepcion.AplicacionExcepcion;
+import dev.manuel.estandar.excepcion.AplicacionException;
 import dev.manuel.estandar.persistencia.abstracto.Entidad;
 
 import java.io.Serializable;
@@ -52,7 +52,7 @@ public class Mesa extends Entidad implements Serializable {
   // </editor-fold>
 
   @Override
-  public Mesa validar() throws AplicacionExcepcion {
+  public Mesa validar() throws AplicacionException {
     return this;
   }
 }

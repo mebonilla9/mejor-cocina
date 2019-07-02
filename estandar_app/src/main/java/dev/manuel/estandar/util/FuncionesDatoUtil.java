@@ -8,7 +8,7 @@ package dev.manuel.estandar.util;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.manuel.estandar.constante.EMensajeEstandar;
-import dev.manuel.estandar.excepcion.AplicacionExcepcion;
+import dev.manuel.estandar.excepcion.AplicacionException;
 import org.apache.commons.validator.routines.DateValidator;
 import org.apache.commons.validator.routines.DoubleValidator;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -100,10 +100,10 @@ public class FuncionesDatoUtil {
    *
    * @param json Objeto que se quiere convertir en un mapa de llave - valor
    * @return
-   * @throws AplicacionExcepcion
+   * @throws AplicacionException
    */
   public static Map<String, String> jsonMap(String json)
-          throws AplicacionExcepcion
+          throws AplicacionException
   {
     if (json == null || "".equalsIgnoreCase(json.trim())) {
       return new HashMap<>();
@@ -114,7 +114,7 @@ public class FuncionesDatoUtil {
       return new ObjectMapper().readValue(json, tipo);
     } catch (IOException ex) {
       LogUtil.error(ex);
-      throw new AplicacionExcepcion(EMensajeEstandar.ERROR_JSON_MAP);
+      throw new AplicacionException(EMensajeEstandar.ERROR_JSON_MAP);
     }
   }
 
@@ -123,16 +123,16 @@ public class FuncionesDatoUtil {
    *
    * @param data Objeto que se quiere convertir en un JSON
    * @return String con la información convertidad
-   * @throws AplicacionExcepcion Error al convertir
+   * @throws AplicacionException Error al convertir
    */
   public static String json(Object data)
-          throws AplicacionExcepcion
+          throws AplicacionException
   {
     try {
       return new ObjectMapper().writeValueAsString(data);
     } catch (IOException ex) {
       LogUtil.error(ex);
-      throw new AplicacionExcepcion(EMensajeEstandar.ERROR_JSON);
+      throw new AplicacionException(EMensajeEstandar.ERROR_JSON);
     }
   }
 
@@ -143,14 +143,14 @@ public class FuncionesDatoUtil {
    * @param valor campo o atributo a validar
    * @param mensaje campo de la interfaz
    * @return
-   * @throws AplicacionExcepcion
+   * @throws AplicacionException
    */
   @SuppressWarnings("UseOfObsoleteCollectionType")
   public static <T extends Object> T validarRequerido(Object valor, String mensaje)
-          throws AplicacionExcepcion
+          throws AplicacionException
   {
     if (valor == null) {
-      throw new AplicacionExcepcion(EMensajeEstandar.ERROR_VALIDACION_MENSAJE, mensaje);
+      throw new AplicacionException(EMensajeEstandar.ERROR_VALIDACION_MENSAJE, mensaje);
     }
     Class claseValor = valor.getClass();
     if (claseValor == List.class
@@ -159,7 +159,7 @@ public class FuncionesDatoUtil {
     }
     String valorTexto = valor.toString().trim();
     if (valorTexto.equalsIgnoreCase("")) {
-      throw new AplicacionExcepcion(EMensajeEstandar.ERROR_VALIDACION_MENSAJE, mensaje);
+      throw new AplicacionException(EMensajeEstandar.ERROR_VALIDACION_MENSAJE, mensaje);
     }
     return (T) valor;
   }
@@ -170,10 +170,10 @@ public class FuncionesDatoUtil {
    * @param valor Información o dato a validar
    * @param mensaje campo de la interfaz a validar
    * @return
-   * @throws AplicacionExcepcion
+   * @throws AplicacionException
    */
   public static Date validarFecha(Object valor, String mensaje)
-          throws AplicacionExcepcion
+          throws AplicacionException
   {
     if (valor == null) {
       return null;
@@ -197,7 +197,7 @@ public class FuncionesDatoUtil {
     if (fechaLarga != null) {
       return fechaLarga;
     }
-    throw new AplicacionExcepcion(EMensajeEstandar.ERROR_VALIDACION_MENSAJE, mensaje);
+    throw new AplicacionException(EMensajeEstandar.ERROR_VALIDACION_MENSAJE, mensaje);
   }
 
   /**
@@ -206,10 +206,10 @@ public class FuncionesDatoUtil {
    * @param valor texto a validar si es un correo
    * @param mensaje nombre del campo de la interfaz
    * @return
-   * @throws AplicacionExcepcion
+   * @throws AplicacionException
    */
   public static String validarCorreo(Object valor, String mensaje)
-          throws AplicacionExcepcion
+          throws AplicacionException
   {
     if (valor == null) {
       return null;
@@ -222,7 +222,7 @@ public class FuncionesDatoUtil {
     if (esCorreo) {
       return valorTexto;
     }
-    throw new AplicacionExcepcion(EMensajeEstandar.ERROR_VALIDACION_MENSAJE, mensaje);
+    throw new AplicacionException(EMensajeEstandar.ERROR_VALIDACION_MENSAJE, mensaje);
   }
 
   /**
@@ -232,10 +232,10 @@ public class FuncionesDatoUtil {
    * @param valor
    * @param mensaje
    * @return
-   * @throws AplicacionExcepcion
+   * @throws AplicacionException
    */
   public static <T extends Number> T validarNumero(Object valor, String mensaje)
-          throws AplicacionExcepcion
+          throws AplicacionException
   {
     if (valor == null) {
       return null;
@@ -254,7 +254,7 @@ public class FuncionesDatoUtil {
     if (numero != null) {
       return (T) numero;
     }
-    throw new AplicacionExcepcion(EMensajeEstandar.ERROR_VALIDACION_MENSAJE, mensaje);
+    throw new AplicacionException(EMensajeEstandar.ERROR_VALIDACION_MENSAJE, mensaje);
   }
 
   /**
@@ -351,10 +351,10 @@ public class FuncionesDatoUtil {
    * @param json Cadena de caracteres con el formato json
    * @param referencia {@code  new TypeReference<List<Clase>>() }
    * @return Objeto con la información del json
-   * @throws AplicacionExcepcion Error al realizar la conversión
+   * @throws AplicacionException Error al realizar la conversión
    */
   public static <T extends Object> T jsonObjeto(String json, TypeReference<T> referencia)
-          throws AplicacionExcepcion
+          throws AplicacionException
   {
     if (tieneValor(json) && referencia != null) {
       try {
@@ -364,7 +364,7 @@ public class FuncionesDatoUtil {
         LogUtil.error(ex);
       }
     }
-    throw new AplicacionExcepcion(EMensajeEstandar.ERROR_JSON);
+    throw new AplicacionException(EMensajeEstandar.ERROR_JSON);
   }
 
   /**
@@ -382,7 +382,7 @@ public class FuncionesDatoUtil {
   {
     try {
       return jsonObjeto(json, referencia);
-    } catch (AplicacionExcepcion ex) {
+    } catch (AplicacionException ex) {
       LogUtil.error(ex);
       return (T) defecto;
     }

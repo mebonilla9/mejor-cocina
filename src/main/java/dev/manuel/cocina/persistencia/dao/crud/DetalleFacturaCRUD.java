@@ -1,16 +1,14 @@
 package dev.manuel.cocina.persistencia.dao.crud;
 
-import dev.manuel.cocina.persistencia.basedatos.PostgresBD;
 import dev.manuel.cocina.persistencia.constante.EMensajePersistencia;
 import dev.manuel.cocina.persistencia.entidades.Cocinero;
 import dev.manuel.cocina.persistencia.entidades.DetalleFactura;
 import dev.manuel.cocina.persistencia.entidades.Factura;
 import dev.manuel.estandar.dto.AuditoriaDTO;
 import dev.manuel.estandar.persistencia.abstracto.GenericoCRUD;
-import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
+import dev.manuel.estandar.persistencia.excepcion.PersistenciaException;
 import dev.manuel.estandar.util.LogUtil;
 
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +21,12 @@ public class DetalleFacturaCRUD extends GenericoCRUD {
 
   private final int ID = 1;
 
-  public DetalleFacturaCRUD(Connection conn, AuditoriaDTO auditoria) throws PersistenciaExcepcion {
+  public DetalleFacturaCRUD(Connection conn, AuditoriaDTO auditoria) throws PersistenciaException {
     super(conn, auditoria);
   }
 
 
-  public void insertar(DetalleFactura detalleFactura) throws PersistenciaExcepcion {
+  public void insertar(DetalleFactura detalleFactura) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -48,14 +46,14 @@ public class DetalleFacturaCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_INSERTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_INSERTAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public void insertarTodos(DetalleFactura detalleFactura) throws PersistenciaExcepcion {
+  public void insertarTodos(DetalleFactura detalleFactura) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -72,14 +70,14 @@ public class DetalleFacturaCRUD extends GenericoCRUD {
       sentencia.executeUpdate();
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_INSERTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_INSERTAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public void editar(DetalleFactura detalleFactura) throws PersistenciaExcepcion {
+  public void editar(DetalleFactura detalleFactura) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -96,14 +94,14 @@ public class DetalleFacturaCRUD extends GenericoCRUD {
       sentencia.executeUpdate();
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_EDITAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_EDITAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public List<DetalleFactura> consultar() throws PersistenciaExcepcion {
+  public List<DetalleFactura> consultar() throws PersistenciaException {
     PreparedStatement sentencia = null;
     List<DetalleFactura> lista = new ArrayList<>();
     try {
@@ -116,7 +114,7 @@ public class DetalleFacturaCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_CONSULTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_CONSULTAR);
     } finally {
       desconectar(sentencia);
     }
@@ -125,7 +123,7 @@ public class DetalleFacturaCRUD extends GenericoCRUD {
   }
 
 
-  public DetalleFactura consultar(long id) throws PersistenciaExcepcion {
+  public DetalleFactura consultar(long id) throws PersistenciaException {
     PreparedStatement sentencia = null;
     DetalleFactura obj = null;
     try {
@@ -139,14 +137,14 @@ public class DetalleFacturaCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_CONSULTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_CONSULTAR);
     } finally {
       desconectar(sentencia);
     }
     return obj;
   }
 
-  public static DetalleFactura getDetalleFactura(ResultSet rs) throws PersistenciaExcepcion {
+  public static DetalleFactura getDetalleFactura(ResultSet rs) throws PersistenciaException {
     DetalleFactura detalleFactura = new DetalleFactura();
     detalleFactura.setIdDetalleFactura(getObject("id_detalle_factura", Integer.class, rs));
     detalleFactura.setPlato(getObject("plato", String.class, rs));
@@ -161,7 +159,7 @@ public class DetalleFacturaCRUD extends GenericoCRUD {
     return detalleFactura;
   }
 
-  public static void getDetalleFactura(ResultSet rs, Map<String, Integer> columnas, DetalleFactura detalleFactura) throws PersistenciaExcepcion {
+  public static void getDetalleFactura(ResultSet rs, Map<String, Integer> columnas, DetalleFactura detalleFactura) throws PersistenciaException {
     Integer columna = columnas.get("detalle_factura_id_detalle_factura");
     if (columna != null) {
       detalleFactura.setIdDetalleFactura(getObject(columna, Integer.class, rs));
@@ -188,7 +186,7 @@ public class DetalleFacturaCRUD extends GenericoCRUD {
     }
   }
 
-  public static void getDetalleFactura(ResultSet rs, Map<String, Integer> columnas, DetalleFactura detalleFactura, String alias) throws PersistenciaExcepcion {
+  public static void getDetalleFactura(ResultSet rs, Map<String, Integer> columnas, DetalleFactura detalleFactura, String alias) throws PersistenciaException {
     Integer columna = columnas.get(alias + "_id_detalle_factura");
     if (columna != null) {
       detalleFactura.setIdDetalleFactura(getObject(columna, Integer.class, rs));
@@ -203,13 +201,13 @@ public class DetalleFacturaCRUD extends GenericoCRUD {
     }
   }
 
-  public static DetalleFactura getDetalleFactura(ResultSet rs, Map<String, Integer> columnas) throws PersistenciaExcepcion {
+  public static DetalleFactura getDetalleFactura(ResultSet rs, Map<String, Integer> columnas) throws PersistenciaException {
     DetalleFactura detalleFactura = new DetalleFactura();
     getDetalleFactura(rs, columnas, detalleFactura);
     return detalleFactura;
   }
 
-  public static DetalleFactura getDetalleFactura(ResultSet rs, Map<String, Integer> columnas, String alias) throws PersistenciaExcepcion {
+  public static DetalleFactura getDetalleFactura(ResultSet rs, Map<String, Integer> columnas, String alias) throws PersistenciaException {
     DetalleFactura detalleFactura = new DetalleFactura();
     getDetalleFactura(rs, columnas, detalleFactura, alias);
     return detalleFactura;

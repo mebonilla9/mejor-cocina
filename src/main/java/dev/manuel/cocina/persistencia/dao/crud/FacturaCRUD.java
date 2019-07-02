@@ -1,7 +1,6 @@
 package dev.manuel.cocina.persistencia.dao.crud;
 
 import dev.manuel.cocina.negocio.utilidades.DateUtil;
-import dev.manuel.cocina.persistencia.basedatos.PostgresBD;
 import dev.manuel.cocina.persistencia.constante.EMensajePersistencia;
 import dev.manuel.cocina.persistencia.entidades.Camarero;
 import dev.manuel.cocina.persistencia.entidades.Cliente;
@@ -9,10 +8,9 @@ import dev.manuel.cocina.persistencia.entidades.Factura;
 import dev.manuel.cocina.persistencia.entidades.Mesa;
 import dev.manuel.estandar.dto.AuditoriaDTO;
 import dev.manuel.estandar.persistencia.abstracto.GenericoCRUD;
-import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
+import dev.manuel.estandar.persistencia.excepcion.PersistenciaException;
 import dev.manuel.estandar.util.LogUtil;
 
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,12 +24,12 @@ public class FacturaCRUD extends GenericoCRUD {
 
   private final int ID = 1;
 
-  public FacturaCRUD(Connection conn, AuditoriaDTO auditoria) throws PersistenciaExcepcion {
+  public FacturaCRUD(Connection conn, AuditoriaDTO auditoria) throws PersistenciaException {
     super(conn, auditoria);
   }
 
 
-  public void insertar(Factura factura) throws PersistenciaExcepcion {
+  public void insertar(Factura factura) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -52,14 +50,14 @@ public class FacturaCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_INSERTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_INSERTAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public void insertarTodos(Factura factura) throws PersistenciaExcepcion {
+  public void insertarTodos(Factura factura) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -77,14 +75,14 @@ public class FacturaCRUD extends GenericoCRUD {
       sentencia.executeUpdate();
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_INSERTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_INSERTAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public void editar(Factura factura) throws PersistenciaExcepcion {
+  public void editar(Factura factura) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -102,14 +100,14 @@ public class FacturaCRUD extends GenericoCRUD {
       sentencia.executeUpdate();
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_EDITAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_EDITAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public List<Factura> consultar() throws PersistenciaExcepcion {
+  public List<Factura> consultar() throws PersistenciaException {
     PreparedStatement sentencia = null;
     List<Factura> lista = new ArrayList<>();
     try {
@@ -122,7 +120,7 @@ public class FacturaCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_CONSULTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_CONSULTAR);
     } finally {
       desconectar(sentencia);
     }
@@ -131,7 +129,7 @@ public class FacturaCRUD extends GenericoCRUD {
   }
 
 
-  public Factura consultar(long id) throws PersistenciaExcepcion {
+  public Factura consultar(long id) throws PersistenciaException {
     PreparedStatement sentencia = null;
     Factura obj = null;
     try {
@@ -145,14 +143,14 @@ public class FacturaCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_CONSULTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_CONSULTAR);
     } finally {
       desconectar(sentencia);
     }
     return obj;
   }
 
-  public static Factura getFactura(ResultSet rs) throws PersistenciaExcepcion {
+  public static Factura getFactura(ResultSet rs) throws PersistenciaException {
     Factura factura = new Factura();
     factura.setIdFactura(getObject("id_factura", Integer.class, rs));
     factura.setFecha(getObject("fecha", Date.class, rs));
@@ -169,7 +167,7 @@ public class FacturaCRUD extends GenericoCRUD {
     return factura;
   }
 
-  public static void getFactura(ResultSet rs, Map<String, Integer> columnas, Factura factura) throws PersistenciaExcepcion {
+  public static void getFactura(ResultSet rs, Map<String, Integer> columnas, Factura factura) throws PersistenciaException {
     Integer columna = columnas.get("factura_id_factura");
     if (columna != null) {
       factura.setIdFactura(getObject(columna, Integer.class, rs));
@@ -198,7 +196,7 @@ public class FacturaCRUD extends GenericoCRUD {
     }
   }
 
-  public static void getFactura(ResultSet rs, Map<String, Integer> columnas, Factura factura, String alias) throws PersistenciaExcepcion {
+  public static void getFactura(ResultSet rs, Map<String, Integer> columnas, Factura factura, String alias) throws PersistenciaException {
     Integer columna = columnas.get(alias + "_id_factura");
     if (columna != null) {
       factura.setIdFactura(getObject(columna, Integer.class, rs));
@@ -209,13 +207,13 @@ public class FacturaCRUD extends GenericoCRUD {
     }
   }
 
-  public static Factura getFactura(ResultSet rs, Map<String, Integer> columnas) throws PersistenciaExcepcion {
+  public static Factura getFactura(ResultSet rs, Map<String, Integer> columnas) throws PersistenciaException {
     Factura factura = new Factura();
     getFactura(rs, columnas, factura);
     return factura;
   }
 
-  public static Factura getFactura(ResultSet rs, Map<String, Integer> columnas, String alias) throws PersistenciaExcepcion {
+  public static Factura getFactura(ResultSet rs, Map<String, Integer> columnas, String alias) throws PersistenciaException {
     Factura factura = new Factura();
     getFactura(rs, columnas, factura, alias);
     return factura;

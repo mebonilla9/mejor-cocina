@@ -6,7 +6,7 @@
 package dev.manuel.estandar.persistencia.abstracto;
 
 
-import dev.manuel.estandar.excepcion.AplicacionExcepcion;
+import dev.manuel.estandar.excepcion.AplicacionException;
 
 /**
  *
@@ -27,6 +27,6 @@ public abstract class Entidad {
   }
 
   public abstract <T extends Entidad> T validar()
-          throws AplicacionExcepcion;
+          throws AplicacionException;
 
 }

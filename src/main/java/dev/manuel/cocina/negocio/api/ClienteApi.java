@@ -5,9 +5,8 @@ import dev.manuel.cocina.negocio.servicio.ClienteServicio;
 import dev.manuel.cocina.persistencia.dto.InformeClienteDTO;
 import dev.manuel.cocina.persistencia.entidades.Cliente;
 import dev.manuel.estandar.dto.RespuestaDTO;
-import dev.manuel.estandar.excepcion.AplicacionExcepcion;
+import dev.manuel.estandar.excepcion.AplicacionException;
 
-import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -36,12 +35,12 @@ public class ClienteApi {
    * Metodo que permite consultar los clientes registrados en el sistema
    *
    * @return Lista de clientes registrados en la aplicación
-   * @throws AplicacionExcepcion Error al consultar la información
+   * @throws AplicacionException Error al consultar la información
    */
   @GET
   @Path(ERutas.Cliente.CONSULTAR)
   @Produces(MediaType.APPLICATION_JSON)
-  public RespuestaDTO consultar() throws AplicacionExcepcion {
+  public RespuestaDTO consultar() throws AplicacionException {
     List<Cliente> listaClientes = clienteServicio.consultarTodos();
     return new RespuestaDTO().setDatos(listaClientes);
   }
@@ -50,12 +49,12 @@ public class ClienteApi {
    * Consulta los datos pertenecientes al informe de gastos de los clientes del restaurante
    *
    * @return Lista de Dto que representa el informe de gastos de los clientes
-   * @throws AplicacionExcepcion Error al consultar la información
+   * @throws AplicacionException Error al consultar la información
    */
   @GET
   @Path(ERutas.Cliente.CONSULTAR_GASTOS)
   @Produces(MediaType.APPLICATION_JSON)
-  public RespuestaDTO consultarGastos() throws AplicacionExcepcion {
+  public RespuestaDTO consultarGastos() throws AplicacionException {
     List<InformeClienteDTO> listaGastos = clienteServicio.consultarGastos();
     return new RespuestaDTO().setDatos(listaGastos);
   }

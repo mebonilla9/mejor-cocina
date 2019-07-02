@@ -6,7 +6,7 @@
 package dev.manuel.estandar.persistencia.abstracto;
 
 import dev.manuel.estandar.constante.EMensajeEstandar;
-import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
+import dev.manuel.estandar.persistencia.excepcion.PersistenciaException;
 
 import java.sql.SQLException;
 
@@ -16,14 +16,14 @@ import java.sql.SQLException;
 public abstract class ModificarAdaptador {
 
   public void sinResultados()
-          throws PersistenciaExcepcion
+          throws PersistenciaException
   {
   }
 
   public void error(SQLException ex)
-          throws PersistenciaExcepcion
+          throws PersistenciaException
   {
-    throw new PersistenciaExcepcion(EMensajeEstandar.ERROR_EDITAR);
+    throw new PersistenciaException(EMensajeEstandar.ERROR_EDITAR);
   }
 
 }

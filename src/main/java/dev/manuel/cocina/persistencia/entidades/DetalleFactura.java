@@ -2,7 +2,7 @@
 package dev.manuel.cocina.persistencia.entidades;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import dev.manuel.estandar.excepcion.AplicacionExcepcion;
+import dev.manuel.estandar.excepcion.AplicacionException;
 import dev.manuel.estandar.persistencia.abstracto.Entidad;
 
 import java.io.Serializable;
@@ -72,7 +72,7 @@ public class DetalleFactura extends Entidad implements Serializable {
   // </editor-fold>
 
   @Override
-  public DetalleFactura validar() throws AplicacionExcepcion {
+  public DetalleFactura validar() throws AplicacionException {
     return this;
   }
 }

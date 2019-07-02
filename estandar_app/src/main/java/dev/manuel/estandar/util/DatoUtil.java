@@ -6,7 +6,7 @@
 package dev.manuel.estandar.util;
 
 import dev.manuel.estandar.constante.EMensajeEstandar;
-import dev.manuel.estandar.excepcion.AplicacionExcepcion;
+import dev.manuel.estandar.excepcion.AplicacionException;
 
 import java.util.regex.Pattern;
 
@@ -32,10 +32,10 @@ public class DatoUtil extends FuncionesDatoUtil {
    *
    * @param <T>
    * @return
-   * @throws AplicacionExcepcion
+   * @throws AplicacionException
    */
   public <T extends Object> T validar(Class clase)
-          throws AplicacionExcepcion
+          throws AplicacionException
   {
 
     String[] reglas = validaciones.split(Pattern.quote("|"));
@@ -52,7 +52,7 @@ public class DatoUtil extends FuncionesDatoUtil {
         case "fecha":
           return (T) validarFecha(dato, mensaje);
         default:
-          throw new AplicacionExcepcion(EMensajeEstandar.ERROR_REGLA_NO_EXISTE);
+          throw new AplicacionException(EMensajeEstandar.ERROR_REGLA_NO_EXISTE);
       }
     }
     return (T) dato;

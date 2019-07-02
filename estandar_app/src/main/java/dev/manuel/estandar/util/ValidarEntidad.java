@@ -6,7 +6,7 @@
 package dev.manuel.estandar.util;
 
 import dev.manuel.estandar.constante.EMensajeEstandar;
-import dev.manuel.estandar.excepcion.AplicacionExcepcion;
+import dev.manuel.estandar.excepcion.AplicacionException;
 import dev.manuel.estandar.persistencia.abstracto.Entidad;
 
 import java.lang.reflect.Field;
@@ -41,13 +41,13 @@ public class ValidarEntidad extends FuncionesDatoUtil {
    *
    * @param entidad información a validar
    * @return
-   * @throws AplicacionExcepcion
+   * @throws AplicacionException
    */
   public static ValidarEntidad construir(Entidad entidad)
-          throws AplicacionExcepcion
+          throws AplicacionException
   {
     if (entidad == null) {
-      throw new AplicacionExcepcion(EMensajeEstandar.ERROR_ENTIDAD);
+      throw new AplicacionException(EMensajeEstandar.ERROR_ENTIDAD);
     }
     return new ValidarEntidad(entidad);
   }
@@ -69,13 +69,13 @@ public class ValidarEntidad extends FuncionesDatoUtil {
    * Método encargado de realizar la validación de acuerdo a las reglas
    * establecidas
    *
-   * @throws AplicacionExcepcion
+   * @throws AplicacionException
    */
   public void validar()
-          throws AplicacionExcepcion
+          throws AplicacionException
   {
     if (listaReglas.isEmpty()) {
-      throw new AplicacionExcepcion(EMensajeEstandar.ERROR_REGLAS);
+      throw new AplicacionException(EMensajeEstandar.ERROR_REGLAS);
     }
     Set<String> listaCampos = listaReglas.keySet();
     for (String campoGeneral : listaCampos) {
@@ -94,10 +94,10 @@ public class ValidarEntidad extends FuncionesDatoUtil {
    * el campo es válido
    * @param posicion número en el que inicia la validación
    * @return
-   * @throws AplicacionExcepcion
+   * @throws AplicacionException
    */
   private Object obtenerCampoRecursivo(Object objeto, String[] camposRecursivos, int posicion)
-          throws AplicacionExcepcion
+          throws AplicacionException
   {
     String campo = camposRecursivos[posicion];
     Object valorCampo = getValor(objeto, campo);
@@ -115,10 +115,10 @@ public class ValidarEntidad extends FuncionesDatoUtil {
    *
    * @param campo nombre del campo a validar
    * @param valorCampo Objeto a validar o dato
-   * @throws AplicacionExcepcion El valor del objeto no cumple con la validación
+   * @throws AplicacionException El valor del objeto no cumple con la validación
    */
   private void validarCampo(String campo, Object valorCampo)
-          throws AplicacionExcepcion
+          throws AplicacionException
   {
     String reglasCampo = listaReglas.get(campo);
     String mensaje = listaMensajes.get(campo);
@@ -138,7 +138,7 @@ public class ValidarEntidad extends FuncionesDatoUtil {
           validarFecha(valorCampo, mensaje);
           break;
         default:
-          throw new AplicacionExcepcion(EMensajeEstandar.ERROR_REGLA_NO_EXISTE);
+          throw new AplicacionException(EMensajeEstandar.ERROR_REGLA_NO_EXISTE);
       }
     }
   }
@@ -149,10 +149,10 @@ public class ValidarEntidad extends FuncionesDatoUtil {
    * @param objeto Objeto que se quiere realizar la validación
    * @param campo nombre del atributo que se quiere obtener el valor
    * @return
-   * @throws AplicacionExcepcion
+   * @throws AplicacionException
    */
   private Object getValor(Object objeto, String campo)
-          throws AplicacionExcepcion
+          throws AplicacionException
   {
     try {
       Field campoEntidad = objeto.getClass().getDeclaredField(campo);
@@ -163,7 +163,7 @@ public class ValidarEntidad extends FuncionesDatoUtil {
       return valor;
     } catch (Exception ex) {
       LogUtil.error(ex);
-      throw new AplicacionExcepcion(EMensajeEstandar.ERROR_CAMPO, campo);
+      throw new AplicacionException(EMensajeEstandar.ERROR_CAMPO, campo);
     }
   }
 

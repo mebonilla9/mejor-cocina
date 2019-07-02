@@ -3,9 +3,8 @@ package dev.manuel.cocina.persistencia.dao;
 import dev.manuel.cocina.persistencia.dao.crud.ClienteCRUD;
 import dev.manuel.cocina.persistencia.dto.InformeClienteDTO;
 import dev.manuel.estandar.dto.AuditoriaDTO;
-import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
+import dev.manuel.estandar.persistencia.excepcion.PersistenciaException;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import java.util.List;
  */
 public class ClienteDAO extends ClienteCRUD {
 
-  public ClienteDAO(Connection conn, AuditoriaDTO auditoria) throws PersistenciaExcepcion {
+  public ClienteDAO(Connection conn, AuditoriaDTO auditoria) throws PersistenciaException {
     super(conn, auditoria);
   }
 
@@ -22,9 +21,9 @@ public class ClienteDAO extends ClienteCRUD {
    * Consulta el informe de los Clientes, y cual ha sido el total de sus gastos en el restaurante
    *
    * @return Lista de Dto que representa el informe de gastos por cliente
-   * @throws PersistenciaExcepcion Error al consultar la información
+   * @throws PersistenciaException Error al consultar la información
    */
-  public List<InformeClienteDTO> consultarGastoClientes() throws PersistenciaExcepcion {
+  public List<InformeClienteDTO> consultarGastoClientes() throws PersistenciaException {
     StringBuilder sql = new StringBuilder();
     sql.append("SELECT DISTINCT c.*, sum(df.importe) gasto ")
       .append("FROM public.cliente c ")

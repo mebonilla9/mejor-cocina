@@ -1,15 +1,12 @@
 package dev.manuel.cocina.persistencia.dao.crud;
 
-import dev.manuel.cocina.persistencia.basedatos.PostgresBD;
 import dev.manuel.cocina.persistencia.constante.EMensajePersistencia;
 import dev.manuel.cocina.persistencia.entidades.Camarero;
 import dev.manuel.estandar.dto.AuditoriaDTO;
 import dev.manuel.estandar.persistencia.abstracto.GenericoCRUD;
-import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
+import dev.manuel.estandar.persistencia.excepcion.PersistenciaException;
 import dev.manuel.estandar.util.LogUtil;
 
-import javax.sql.DataSource;
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +19,12 @@ public class CamareroCRUD extends GenericoCRUD {
 
   private final int ID = 1;
 
-  public CamareroCRUD(Connection conn, AuditoriaDTO auditoria) throws PersistenciaExcepcion {
+  public CamareroCRUD(Connection conn, AuditoriaDTO auditoria) throws PersistenciaException {
     super(conn, auditoria);
   }
 
 
-  public void insertar(Camarero camarero) throws PersistenciaExcepcion {
+  public void insertar(Camarero camarero) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -44,14 +41,14 @@ public class CamareroCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_INSERTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_INSERTAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public void insertarTodos(Camarero camarero) throws PersistenciaExcepcion {
+  public void insertarTodos(Camarero camarero) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -65,14 +62,14 @@ public class CamareroCRUD extends GenericoCRUD {
       sentencia.executeUpdate();
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_INSERTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_INSERTAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public void editar(Camarero camarero) throws PersistenciaExcepcion {
+  public void editar(Camarero camarero) throws PersistenciaException {
     PreparedStatement sentencia = null;
     try {
       int i = 1;
@@ -86,14 +83,14 @@ public class CamareroCRUD extends GenericoCRUD {
       sentencia.executeUpdate();
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_EDITAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_EDITAR);
     } finally {
       desconectar(sentencia);
     }
   }
 
 
-  public List<Camarero> consultar() throws PersistenciaExcepcion {
+  public List<Camarero> consultar() throws PersistenciaException {
     PreparedStatement sentencia = null;
     List<Camarero> lista = new ArrayList<>();
     try {
@@ -106,7 +103,7 @@ public class CamareroCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_CONSULTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_CONSULTAR);
     } finally {
       desconectar(sentencia);
     }
@@ -115,7 +112,7 @@ public class CamareroCRUD extends GenericoCRUD {
   }
 
 
-  public Camarero consultar(long id) throws PersistenciaExcepcion {
+  public Camarero consultar(long id) throws PersistenciaException {
     PreparedStatement sentencia = null;
     Camarero obj = null;
     try {
@@ -129,14 +126,14 @@ public class CamareroCRUD extends GenericoCRUD {
       }
     } catch (SQLException e) {
       LogUtil.error(e);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_CONSULTAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_CONSULTAR);
     } finally {
       desconectar(sentencia);
     }
     return obj;
   }
 
-  public static Camarero getCamarero(ResultSet rs) throws PersistenciaExcepcion {
+  public static Camarero getCamarero(ResultSet rs) throws PersistenciaException {
     Camarero camarero = new Camarero();
     camarero.setIdCamarero(getObject("id_camarero", Integer.class, rs));
     camarero.setNombre(getObject("nombre", String.class, rs));
@@ -146,7 +143,7 @@ public class CamareroCRUD extends GenericoCRUD {
     return camarero;
   }
 
-  public static void getCamarero(ResultSet rs, Map<String, Integer> columnas, Camarero camarero) throws PersistenciaExcepcion {
+  public static void getCamarero(ResultSet rs, Map<String, Integer> columnas, Camarero camarero) throws PersistenciaException {
     Integer columna = columnas.get("camarero_id_camarero");
     if (columna != null) {
       camarero.setIdCamarero(getObject(columna, Integer.class, rs));
@@ -165,7 +162,7 @@ public class CamareroCRUD extends GenericoCRUD {
     }
   }
 
-  public static void getCamarero(ResultSet rs, Map<String, Integer> columnas, Camarero camarero, String alias) throws PersistenciaExcepcion {
+  public static void getCamarero(ResultSet rs, Map<String, Integer> columnas, Camarero camarero, String alias) throws PersistenciaException {
     Integer columna = columnas.get(alias + "_id_camarero");
     if (columna != null) {
       camarero.setIdCamarero(getObject(columna, Integer.class, rs));
@@ -184,13 +181,13 @@ public class CamareroCRUD extends GenericoCRUD {
     }
   }
 
-  public static Camarero getCamarero(ResultSet rs, Map<String, Integer> columnas) throws PersistenciaExcepcion {
+  public static Camarero getCamarero(ResultSet rs, Map<String, Integer> columnas) throws PersistenciaException {
     Camarero camarero = new Camarero();
     getCamarero(rs, columnas, camarero);
     return camarero;
   }
 
-  public static Camarero getCamarero(ResultSet rs, Map<String, Integer> columnas, String alias) throws PersistenciaExcepcion {
+  public static Camarero getCamarero(ResultSet rs, Map<String, Integer> columnas, String alias) throws PersistenciaException {
     Camarero camarero = new Camarero();
     getCamarero(rs, columnas, camarero, alias);
     return camarero;

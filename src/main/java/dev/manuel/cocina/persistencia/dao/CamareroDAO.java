@@ -3,9 +3,8 @@ package dev.manuel.cocina.persistencia.dao;
 import dev.manuel.cocina.persistencia.dao.crud.CamareroCRUD;
 import dev.manuel.cocina.persistencia.dto.InformeCamareroDTO;
 import dev.manuel.estandar.dto.AuditoriaDTO;
-import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
+import dev.manuel.estandar.persistencia.excepcion.PersistenciaException;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import java.util.List;
  */
 public class CamareroDAO extends CamareroCRUD {
 
-  public CamareroDAO(Connection conn, AuditoriaDTO auditoria) throws PersistenciaExcepcion {
+  public CamareroDAO(Connection conn, AuditoriaDTO auditoria) throws PersistenciaException {
     super(conn, auditoria);
   }
 
@@ -22,9 +21,9 @@ public class CamareroDAO extends CamareroCRUD {
    * Consulta el informe de los camareros y sus respectivas ventas por mes
    *
    * @return Lista de Dto que representa el informe de ventas de camareros
-   * @throws PersistenciaExcepcion
+   * @throws PersistenciaException
    */
-  public List<InformeCamareroDTO> consultarInforme() throws PersistenciaExcepcion {
+  public List<InformeCamareroDTO> consultarInforme() throws PersistenciaException {
     StringBuilder sql = new StringBuilder();
     sql.append("SELECT DISTINCT c.*, EXTRACT(MONTH FROM f.fecha)::CHARACTER VARYING fecha, sum(df.importe) total ")
       .append("FROM public.camarero c ")

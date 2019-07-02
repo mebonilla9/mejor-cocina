@@ -1,7 +1,7 @@
 package dev.manuel.estandar.util;
 
 
-import dev.manuel.estandar.excepcion.AplicacionExcepcion;
+import dev.manuel.estandar.excepcion.AplicacionException;
 
 /**
  *
@@ -18,7 +18,7 @@ public class LogUtil {
         e.printStackTrace();
     }
 
-    public static void error(AplicacionExcepcion ex) {
+    public static void error(AplicacionException ex) {
         if (ex.getCodigo() >= 0) {
             System.out.println(ex.getMensaje());
             return;

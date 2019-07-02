@@ -6,9 +6,9 @@
 package dev.manuel.cocina.persistencia.basedatos;
 
 import dev.manuel.cocina.persistencia.constante.EMensajePersistencia;
-import dev.manuel.estandar.excepcion.AplicacionExcepcion;
+import dev.manuel.estandar.excepcion.AplicacionException;
 import dev.manuel.estandar.persistencia.abstracto.GenericoConexion;
-import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
+import dev.manuel.estandar.persistencia.excepcion.PersistenciaException;
 import dev.manuel.estandar.util.LogUtil;
 
 import javax.naming.Context;
@@ -23,7 +23,7 @@ import java.sql.SQLException;
 public class PostgresBD extends GenericoConexion {
 
   public static Connection conectar()
-    throws AplicacionExcepcion {
+    throws AplicacionException {
     try {
       Context context = new InitialContext();
       DataSource ds = (DataSource) context.lookup("java:/CocinaDS");
@@ -32,32 +32,32 @@ public class PostgresBD extends GenericoConexion {
       return cnn;
     } catch (Exception ex) {
       LogUtil.error(ex);
-      throw new AplicacionExcepcion(EMensajePersistencia.ERROR_CONEXION_BD);
+      throw new AplicacionException(EMensajePersistencia.ERROR_CONEXION_BD);
     }
   }
 
   public static Connection getConexion(DataSource datasource)
-    throws PersistenciaExcepcion {
+    throws PersistenciaException {
     try {
       return datasource.getConnection();
     } catch (SQLException ex) {
       LogUtil.error(ex);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_CONEXION_BD);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_CONEXION_BD);
     }
   }
 
   public static void commit(DataSource datasource)
-    throws PersistenciaExcepcion {
+    throws PersistenciaException {
     try {
       getConexion(datasource).commit();
     } catch (SQLException ex) {
       LogUtil.error(ex);
-      throw new PersistenciaExcepcion(EMensajePersistencia.ERROR_CONFIRMAR);
+      throw new PersistenciaException(EMensajePersistencia.ERROR_CONFIRMAR);
     }
   }
 
   public static void rollback(DataSource datasource)
-    throws PersistenciaExcepcion {
+    throws PersistenciaException {
     try {
       getConexion(datasource).rollback();
     } catch (SQLException ex) {

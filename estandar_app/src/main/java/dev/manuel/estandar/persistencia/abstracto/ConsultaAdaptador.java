@@ -6,7 +6,7 @@
 package dev.manuel.estandar.persistencia.abstracto;
 
 import dev.manuel.estandar.constante.EMensajeEstandar;
-import dev.manuel.estandar.persistencia.excepcion.PersistenciaExcepcion;
+import dev.manuel.estandar.persistencia.excepcion.PersistenciaException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,16 +20,16 @@ import java.util.Map;
 public interface ConsultaAdaptador<T> {
 
   public abstract T siguiente(ResultSet rs, Map<String, Integer> columns)
-    throws PersistenciaExcepcion;
+    throws PersistenciaException;
 
   public default void sinResultados()
-    throws PersistenciaExcepcion {
-    //throw new PersistenciaExcepcion(EMensajePersistencia.NO_RESULTADOS);
+    throws PersistenciaException {
+    //throw new PersistenciaException(EMensajePersistencia.NO_RESULTADOS);
   }
 
   public default void error(SQLException ex)
-    throws PersistenciaExcepcion {
-    throw new PersistenciaExcepcion(EMensajeEstandar.ERROR_CONSULTAR);
+    throws PersistenciaException {
+    throw new PersistenciaException(EMensajeEstandar.ERROR_CONSULTAR);
   }
 
 }

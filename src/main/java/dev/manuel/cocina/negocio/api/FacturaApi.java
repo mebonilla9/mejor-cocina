@@ -4,9 +4,8 @@ import dev.manuel.cocina.negocio.constante.ERutas;
 import dev.manuel.cocina.negocio.servicio.FacturaServicio;
 import dev.manuel.cocina.persistencia.dto.FacturaDTO;
 import dev.manuel.estandar.dto.RespuestaDTO;
-import dev.manuel.estandar.excepcion.AplicacionExcepcion;
+import dev.manuel.estandar.excepcion.AplicacionException;
 
-import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -37,13 +36,13 @@ public class FacturaApi {
    *
    * @param factura Dto que representa la factura a registrar
    * @return Respuesta del resultado de la transacción
-   * @throws AplicacionExcepcion Error al registrar uno de los pasos de la transaccion
+   * @throws AplicacionException Error al registrar uno de los pasos de la transaccion
    */
   @POST
   @Path(ERutas.Factura.GUARDAR)
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public RespuestaDTO RespuestaDTO(FacturaDTO factura) throws AplicacionExcepcion {
+  public RespuestaDTO RespuestaDTO(FacturaDTO factura) throws AplicacionException {
     facturaServicio.guardarFactura(factura);
     return new RespuestaDTO();
   }

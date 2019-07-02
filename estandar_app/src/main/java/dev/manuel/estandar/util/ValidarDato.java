@@ -6,7 +6,7 @@
 package dev.manuel.estandar.util;
 
 import dev.manuel.estandar.constante.EMensajeEstandar;
-import dev.manuel.estandar.excepcion.AplicacionExcepcion;
+import dev.manuel.estandar.excepcion.AplicacionException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +51,13 @@ public class ValidarDato {
    * Si se está validando más de un dato el método valida todos los campos pero
    * al final devuelve un null
    *
-   * @throws AplicacionExcepcion
+   * @throws AplicacionException
    */
   public void validar()
-          throws AplicacionExcepcion
+          throws AplicacionException
   {
     if (listaDatos.isEmpty()) {
-      throw new AplicacionExcepcion(EMensajeEstandar.ERROR_REGLA_NO_EXISTE);
+      throw new AplicacionException(EMensajeEstandar.ERROR_REGLA_NO_EXISTE);
     }
     for (DatoUtil dato : listaDatos) {
       dato.validar(null);
@@ -73,16 +73,16 @@ public class ValidarDato {
    * @param <T> Objeto convertido
    * @param clase Clase a convertir (Integer,Long,Double, Float)
    * @return retorna el valor numérico
-   * @throws AplicacionExcepcion
+   * @throws AplicacionException
    */
   public <T extends Object> T validarConvertir(Class clase)
-          throws AplicacionExcepcion
+          throws AplicacionException
   {
     if (listaDatos.isEmpty()) {
-      throw new AplicacionExcepcion(EMensajeEstandar.ERROR_REGLA_NO_EXISTE);
+      throw new AplicacionException(EMensajeEstandar.ERROR_REGLA_NO_EXISTE);
     }
     if (listaDatos.size() > 1) {
-      throw new AplicacionExcepcion(EMensajeEstandar.ERROR_REGLAS_DEMASIADO);
+      throw new AplicacionException(EMensajeEstandar.ERROR_REGLAS_DEMASIADO);
     }
     DatoUtil dato = listaDatos.get(0);
     return dato.validar(clase);
